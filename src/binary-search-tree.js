@@ -50,16 +50,18 @@ class BinarySearchTree {
     let node = this.rootNode
 
     function checkContains(currentNode) {
+      if (currentNode === null) {
+        return false
+      }
       if (currentNode.data === data) {
         return true
       }
       if (currentNode.data < data) {
         return checkContains(currentNode.right)
-      }
+      } 
       if (currentNode.data > data) {
         return checkContains(currentNode.left)
       }
-      return false
     }
     return checkContains(node)
   }
@@ -68,6 +70,9 @@ class BinarySearchTree {
     let node = this.rootNode
 
     function checkContains(currentNode) {
+      if (currentNode === null) {
+        return null
+      }
       if (currentNode.data === data) {
         return currentNode
       }
@@ -86,11 +91,11 @@ class BinarySearchTree {
     let node = this.rootNode
 
 
-    function findMax(node){
+    function findMax(node) {
       while (node.right) {
         node = node.right
       }
-  
+
       return node.data
     }
 
