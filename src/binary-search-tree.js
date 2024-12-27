@@ -58,7 +58,7 @@ class BinarySearchTree {
       }
       if (currentNode.data < data) {
         return checkContains(currentNode.right)
-      } 
+      }
       if (currentNode.data > data) {
         return checkContains(currentNode.left)
       }
@@ -91,49 +91,49 @@ class BinarySearchTree {
     let node = this.rootNode
 
 
-    function findMax(node) {
-      while (node.right) {
-        node = node.right
+    function findMin(node) {
+      while (node.left) {
+        node = node.left
       }
 
       return node.data
     }
 
-    function findDeleteNode(currentNode) {
-      if (currentNode.data === data) {
-        return deleteNode(currentNode)
-      }
-
+    function deleteNode(currentNode, data) {
+      // data нужен для сравнение с currentNode.data и что бы мы понимали в какую сторону двигаться. влево или вправо
       if (!currentNode) {
         return null
       }
 
       if (currentNode.data > data) {
-        return findDeleteNode(currentNode.left)
+        currentNode.left = deleteNode(currentNode.left, data)
+        return currentNode
       } else if (currentNode.data < data) {
-        return findDeleteNode(currentNode.right)
+        currentNode.right = deleteNode(currentNode.right, data)
+        return currentNode
+      } else {
+        // если у узла нет дочерних элементов
+        if (!currentNode.left && !currentNode.right) {
+          return currentNode = null
+        }
+
+        // если у узла только 1 дочерний элемент
+        if (currentNode.left && !currentNode.right) {
+          return currentNode = currentNode.left
+        } else if (currentNode.right && !currentNode.left) {
+          return currentNode = currentNode.right
+        }
+
+        let min = findMin(node.right)
+        currentNode.data = min
+        currentNode.right = deleteNode(currentNode.right, min)
+        return currentNode
       }
     }
 
-    function deleteNode(node) {
-      if (!node.left && !node.right) {
-        return node = null
-      }
-
-      if (node.left && !node.right) {
-        return node = node.left
-      } else if (node.right && !node.left) {
-        return node = node.right
-      }
-
-      node.data = findMax(node.left)
-      findMax(node.left).null
-    }
-
-
-
-    return findDeleteNode(node)
+    return deleteNode(node, data)
   }
+
 
   min() {
     let node = this.rootNode
